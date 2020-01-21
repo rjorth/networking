@@ -1,6 +1,13 @@
 #!/usr/bin/env python 
 
 import scapy.all as scapy
+import optparse
+
+def get_arguments():
+	parser = optparse.OptionParser()
+	parser.add_option("-t", "--target", help="Target IP / IP range")
+	options, arguments = parser.parse_args()
+	return options 
 
 def scan(ip):
 	#discover clients on the same network 
@@ -9,10 +16,19 @@ def scan(ip):
 	arp_req_broadcast = broadcast/arp_req
 	answered = scapy.srp(arp_req_broadcast, timeout=1, verbose=False)[0] #only want answered
 
-	print("IP\t\t\tMAC Address\n--------------------------")
+	clients_list = []
 	for element in answered:
-		print(element[1].psrc + "\t\t" + element[1].hwsrc)
+		client_dict = {"ip": element[1].psrc, "mac": element[1].hwsrc}
+		clients_list.append(client_dict)
+	return clients_list
+
+def print_result(results_list):
+	print("IP\t\t\tMAC Address\n--------------------------")
+	for client in results_list:
+		print(client"[ip]" + "\t\t" + client["mac"])
 # >> route -n to check ip of router
 # /24 to check the whole subnet (0 to 254)
-scan("10.0.2./24")
+options = get_arguments()
+scan_result = scan("10.0.2./24")
+print_result(scan_result)
 
