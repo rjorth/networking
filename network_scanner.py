@@ -7,5 +7,6 @@ def scan(ip):
 	scapy.arping(ip)
 
 # >> route -n to check ip of router
-scan("10.0.2.1")
+# /24 to check the whole subnet (0 to 254)
+scan("10.0.2./24")
 
