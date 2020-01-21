@@ -5,7 +5,7 @@ import optparse
 
 def get_arguments():
 	parser = optparse.OptionParser()
-	parser.add_option("-t", "--target", help="Target IP / IP range")
+	parser.add_option("-t", "--target", dest="target", help="Target IP / IP range")
 	options, arguments = parser.parse_args()
 	return options 
 
@@ -29,6 +29,6 @@ def print_result(results_list):
 # >> route -n to check ip of router
 # /24 to check the whole subnet (0 to 254)
 options = get_arguments()
-scan_result = scan("10.0.2./24")
+scan_result = scan(options.target)
 print_result(scan_result)
 
